@@ -5,26 +5,36 @@ import PetsList from "../components/PetsList";
 import NewPetModal from "../components/NewPetModal";
 import Loader from "../components/Loader";
 
+const PETS_FIELDS = gql`
+  fragment PetsFields on Pet {
+    id
+    name
+    type
+    img
+    vaccinated @client
+    owner {
+      id
+      age @client
+    }
+  }
+`;
+
 const GET_PETS = gql`
   query getPets {
     pets {
-      name
-      type
-      img
-      id
+      ...PetsFields
     }
   }
+  ${PETS_FIELDS}
 `;
 
 const ADD_NEW_PET = gql`
   mutation CreateAPet($newPet: NewPetInput!) {
     addPet(input: $newPet) {
-      id
-      name
-      type
-      img
+      ...PetsFields
     }
   }
+  ${PETS_FIELDS}
 `;
 
 export default function Pets() {
@@ -69,6 +79,7 @@ export default function Pets() {
   if (error || response.error) {
     return <p>Error!</p>;
   }
+  console.log(data.pets[0]);
 
   return (
     <div className="page pets-page">

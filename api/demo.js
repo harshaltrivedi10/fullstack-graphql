@@ -7,9 +7,21 @@ const typeDefs = gql`
     avatar: String!
     friends: [User]!
   }
+
+  type Shoe {
+    brand: String!
+    size: Int!
+  }
+
+  input ShoesInput {
+    brand: String
+    size: Int
+  }
+
   type Query {
     me: User!
     friends: [User]!
+    shoes(input: ShoesInput): [Shoe]!
   }
 `;
 
@@ -21,6 +33,12 @@ const resolvers = {
         avatar: "http://yoda.png",
         friends: []
       };
+    },
+    shoes(_, { input }) {
+      return [
+        { brand: "adidas", size: 12 },
+        { brand: "nike", size: 11 }
+      ].filter((shoe) => shoe.brand === input.brand);
     }
   }
 };

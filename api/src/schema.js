@@ -16,8 +16,15 @@ const typeDefs = gql`
     type: String!
   }
 
+  input PetInput {
+    name: String
+    type: String
+  }
+  #  Filter pets by type
+  #  query named Pet that returns only one pet. Filter by name or id
   type Query {
-    pets: [Pet]!
+    pets(input: PetInput): [Pet]!
+    pet(input: PetInput): Pet
   }
 `;
 

@@ -14,17 +14,26 @@ const typeDefs = gql`
     createdAt: String!
     name: String!
     type: String!
+    img: String
   }
 
   input PetInput {
     name: String
     type: String
   }
-  #  Filter pets by type
-  #  query named Pet that returns only one pet. Filter by name or id
+
+  input CreatePetInput {
+    name: String!
+    type: String!
+  }
+  # Mutation to create a Pet using name and Type
   type Query {
     pets(input: PetInput): [Pet]!
     pet(input: PetInput): Pet
+  }
+
+  type Mutation {
+    createNewPet(input: CreatePetInput!): Pet!
   }
 `;
 

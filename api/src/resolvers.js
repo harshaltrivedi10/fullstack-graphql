@@ -29,6 +29,7 @@ module.exports = {
   },
   User: {
     pets(user, _, context) {
+      //  we are not passing any filter to get the users because there is just one user
       return context.models.Pet.findMany();
     }
   }

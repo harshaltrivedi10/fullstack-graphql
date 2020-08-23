@@ -5,27 +5,49 @@ const typeDefs = gql`
   type User {
     email: String!
     avatar: String!
-    friends: [User]!
+    shoes: [Shoe]!
   }
 
-  type Shoe {
+  interface Shoe {
     brand: String!
     size: Int!
+    user: User!
+  }
+
+  type Sneaker implements Shoe {
+    brand: String!
+    size: Int!
+    sport: String!
+    user: User!
+  }
+
+  type Boot implements Shoe {
+    brand: String!
+    size: Int!
+    isWaterproof: Boolean!
+    user: User!
+  }
+
+  enum ShoeType {
+    JORDAN
+    NIKE
+    ADIDAS
+    FILA
+    REDTAPE
   }
 
   input ShoesInput {
-    brand: String
+    brand: ShoeType
     size: Int
   }
 
   input NewShoeInput {
-    brand: String!
+    brand: ShoeType!
     size: Int!
   }
 
   type Query {
     me: User!
-    friends: [User]!
     shoes(input: ShoesInput): [Shoe]!
   }
 
@@ -34,25 +56,55 @@ const typeDefs = gql`
   }
 `;
 
+const user = {
+  id: 1,
+  email: "test@test.com",
+  avatar: "http://yoda.png",
+  shoes: []
+};
+
+const shoes = [
+  { brand: "ADIDAS", size: 12, sport: "TENNIS", user: 1 },
+  { brand: "NIKE", size: 12, sport: "BASKETBALL", user: 1 },
+  { brand: "REDTAPE", size: 11, isWaterproof: true, user: 1 }
+];
+
 const resolvers = {
   Query: {
     me() {
-      return {
-        email: "test@test.com",
-        avatar: "http://yoda.png",
-        friends: []
-      };
+      return user;
     },
     shoes(_, { input }) {
-      return [
-        { brand: "adidas", size: 12 },
-        { brand: "nike", size: 11 }
-      ].filter((shoe) => shoe.brand === input.brand);
+      return shoes;
     }
   },
   Mutation: {
     newShoe(_, { input }) {
       return input;
+    }
+  },
+  Shoe: {
+    __resolveType(shoe) {
+      if (shoe.sport) return "Sneaker";
+      return "Boot";
+    },
+    user(shoe) {
+      return user;
+    }
+  },
+  User: {
+    shoes(user) {
+      return shoes;
+    }
+  },
+  Sneaker: {
+    user(shoe) {
+      return user;
+    }
+  },
+  Boot: {
+    user(shoe) {
+      return user;
     }
   }
 };

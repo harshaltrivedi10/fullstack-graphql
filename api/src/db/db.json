@@ -8,19 +8,22 @@
       "id": "1",
       "createdAt": "wfknp",
       "name": "Zip",
-      "type": "Dog"
+      "type": "Dog",
+      "user": "jBWMVGjm50l6LGwepDoty"
     },
     {
       "id": "2",
       "createdAt": "apekfvnmqp[w",
       "name": "Scooter",
-      "type": "Cat"
+      "type": "Cat",
+      "user": "jBWMVGjm50l6LGwepDoty"
     },
     {
       "id": "aGyNDhKAE5q99bovj3U_m",
       "createdAt": 1598123422742,
       "name": "Hello",
-      "type": "Dog"
+      "type": "Dog",
+      "user": "jBWMVGjm50l6LGwepDoty"
     }
   ]
 }

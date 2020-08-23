@@ -16,13 +16,20 @@ module.exports = {
     createNewPet(_, { input }, context) {
       return context.models.Pet.create(input);
     }
+  },
+  Pet: {
+    // img(pet) {
+    //   return pet.type === "DOG"
+    //     ? "https://placedog.net/300/300"
+    //     : "http://placekitten.com/300/300";
+    // },
+    owner(pet, _, context) {
+      return context.models.User.findOne();
+    }
+  },
+  User: {
+    pets(user, _, context) {
+      return context.models.Pet.findMany();
+    }
   }
-  // Pet: {
-  //   img(pet) {
-  //     return pet.type === "DOG"
-  //       ? "https://placedog.net/300/300"
-  //       : "http://placekitten.com/300/300";
-  //   }
-  // }
-  // User: {}
 };
